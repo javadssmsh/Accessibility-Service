@@ -23,6 +23,7 @@ public class TextAccessibilityService extends AccessibilityService {
             Log.d(ApplicationClass.DEBUG_TAG, "text string is : " + inputText);
             Log.d(ApplicationClass.DEBUG_TAG, "recorderTime is : " + recorderTime);
             Log.d(ApplicationClass.DEBUG_TAG, "whole event is : " + event.toString());
+            Log.d(ApplicationClass.DEBUG_TAG, "whole info is : " + info.toString());
             // process text here
         }
     }
