@@ -3,4 +3,6 @@
     <string name="browser_name">Browser Name : </string>
     <string name="created_date">Created Date :</string>
     <string name="url">URL :</string>
+    <string name="accessibility_service_label">My text scan Accessibility Service</string>
+    <string name="accessibility_service_description">it is a text scan accessibility service</string>
 </resources>
