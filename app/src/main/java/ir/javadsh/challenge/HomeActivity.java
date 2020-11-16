@@ -6,17 +6,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.model.Log;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private TextView tv;
+    private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        tv = findViewById(R.id.textView);
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            }
+        });
 
         //
         List<Log> logs = new ArrayList<>();
@@ -37,4 +60,29 @@ public class HomeActivity extends AppCompatActivity {
         showLogRecyclerView.setAdapter(adapter);
 
     }
+
+    protected void onResume() {
+        super.onResume();
+        if(!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
+            tv.setText("Accessibility Service is NOT enabled");
+            button.setText("Enable");
+        }else{
+            tv.setText("Accessibility Service is ENABLED");
+            button.setText("Disable");
+        }
+    }
+
+    public static boolean isAccessibilityServiceEnabled(Context context, Class<? extends AccessibilityService> service) {
+        AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        List<AccessibilityServiceInfo> enabledServices = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
+
+        for (AccessibilityServiceInfo enabledService : enabledServices) {
+            ServiceInfo enabledServiceInfo = enabledService.getResolveInfo().serviceInfo;
+            if (enabledServiceInfo.packageName.equals(context.getPackageName()) && enabledServiceInfo.name.equals(service.getName()))
+                return true;
+        }
+        return false;
+    }
+
+
 }

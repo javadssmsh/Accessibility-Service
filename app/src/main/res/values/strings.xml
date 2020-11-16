@@ -3,4 +3,8 @@
     <string name="browser_name">Browser Name : </string>
     <string name="created_date">Created Date :</string>
     <string name="url">URL :</string>
+
+
+    <string name="accessibility_service_description">Monitors text events.</string>
+
 </resources>
