@@ -21,7 +21,6 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.rxjava3.disposables.Disposable;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.helper.MessageEvent;
 import ir.javadsh.challenge.model.Log;
