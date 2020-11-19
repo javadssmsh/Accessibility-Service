@@ -1,15 +1,17 @@
 package ir.javadsh.challenge.helper;
 
+import ir.javadsh.challenge.model.ReportLog;
+
 public class MessageEvent {
 
-    public String mMessage;
+    public ReportLog reportLog;
 
-    public MessageEvent(String message) {
-        mMessage = message;
+    public MessageEvent(ReportLog reportLog) {
+        this.reportLog = reportLog;
     }
 
-    public String getMessage() {
-        return mMessage;
+    public ReportLog getMessage() {
+        return this.reportLog;
     }
 
 }

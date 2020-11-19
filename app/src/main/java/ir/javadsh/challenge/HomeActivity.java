@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.helper.MessageEvent;
-import ir.javadsh.challenge.model.Log;
+import ir.javadsh.challenge.model.ReportLog;
 import ir.javadsh.challenge.service.TextAccessibilityService;
 
 public class HomeActivity extends AppCompatActivity {
@@ -55,20 +55,20 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         //
-        List<Log> logs = new ArrayList<>();
+        List<ReportLog> reportLogs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Log log = new Log();
-            log.setBrowserName("کروم" + i);
-            log.setCreatedDate("" + i + ":" + i);
-            log.setImgUrl("");
-            log.setUrl("javadssmh@gmail.com");
-            logs.add(log);
+            ReportLog reportLog = new ReportLog();
+            reportLog.setBrowserName("کروم" + i);
+            reportLog.setCreatedDate("" + i + ":" + i);
+            reportLog.setImgUrl("");
+            reportLog.setUrl("javadssmh@gmail.com");
+            reportLogs.add(reportLog);
         }
 
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         showLogRecyclerView.setHasFixedSize(true);
-        ShowLogAdapter adapter = new ShowLogAdapter(this, logs);
+        ShowLogAdapter adapter = new ShowLogAdapter(this, reportLogs);
         showLogRecyclerView.setLayoutManager(linearLayoutManager);
         showLogRecyclerView.setAdapter(adapter);
 

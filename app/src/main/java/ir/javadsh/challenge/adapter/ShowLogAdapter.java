@@ -8,21 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.R;
-import ir.javadsh.challenge.model.Log;
+import ir.javadsh.challenge.model.ReportLog;
 
 public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewHolder> {
 
     private Context context;
-    private List<Log> logList;
+    private List<ReportLog> reportLogList;
 
-    public ShowLogAdapter(Context context, List<Log> logList) {
+    public ShowLogAdapter(Context context, List<ReportLog> reportLogList) {
         this.context = context;
-        this.logList = logList;
+        this.reportLogList = reportLogList;
     }
 
     @NonNull
@@ -39,7 +38,7 @@ public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewH
 
     @Override
     public int getItemCount() {
-        return logList.size();
+        return reportLogList.size();
     }
 
     public class LogViewHolder extends RecyclerView.ViewHolder {

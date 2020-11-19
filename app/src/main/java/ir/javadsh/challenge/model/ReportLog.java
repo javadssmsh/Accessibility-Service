@@ -1,6 +1,6 @@
 package ir.javadsh.challenge.model;
 
-public class Log {
+public class ReportLog {
     private String imgUrl;
     private String BrowserName;
     private String url;

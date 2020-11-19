@@ -4,9 +4,12 @@ import android.accessibilityservice.AccessibilityService;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+
 import org.greenrobot.eventbus.EventBus;
+
 import ir.javadsh.challenge.ApplicationClass;
 import ir.javadsh.challenge.helper.MessageEvent;
+import ir.javadsh.challenge.model.ReportLog;
 
 
 public class TextAccessibilityService extends AccessibilityService {
@@ -36,7 +39,8 @@ public class TextAccessibilityService extends AccessibilityService {
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
-                EventBus.getDefault().postSticky(new MessageEvent("javad "));
+                ReportLog reportLog = new ReportLog();
+                EventBus.getDefault().postSticky(new MessageEvent(reportLog));
             }
         }
     }
