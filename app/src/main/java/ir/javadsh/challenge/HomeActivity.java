@@ -1,13 +1,5 @@
 package ir.javadsh.challenge;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import ir.javadsh.challenge.adapter.ShowLogAdapter;
-import ir.javadsh.challenge.model.Log;
-import ir.javadsh.challenge.service.ServiceListener;
-import ir.javadsh.challenge.service.TextAccessibilityService;
-
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
@@ -20,13 +12,31 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements ServiceListener {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.rxjava3.disposables.Disposable;
+import ir.javadsh.challenge.adapter.ShowLogAdapter;
+import ir.javadsh.challenge.helper.MessageEvent;
+import ir.javadsh.challenge.model.Log;
+import ir.javadsh.challenge.service.TextAccessibilityService;
+
+public class HomeActivity extends AppCompatActivity {
 
     private TextView tv;
     private Button button;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,8 @@ public class HomeActivity extends AppCompatActivity implements ServiceListener {
 
         tv = findViewById(R.id.textView);
         button = findViewById(R.id.button);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,15 +75,27 @@ public class HomeActivity extends AppCompatActivity implements ServiceListener {
 
     }
 
+    @Subscribe
+    public void onEvent(MessageEvent event) {
+        //Toast.makeText(this, "Hey, my message" + event.getMessage(), Toast.LENGTH_SHORT).show();
+        android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is " + event.getMessage());
+    }
+
+
     protected void onResume() {
         super.onResume();
-        if(!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
+        if (!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
             tv.setText("Accessibility Service is NOT enabled");
             button.setText("Enable");
-        }else{
+        } else {
             tv.setText("Accessibility Service is ENABLED");
             button.setText("Disable");
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public static boolean isAccessibilityServiceEnabled(Context context, Class<? extends AccessibilityService> service) {
@@ -87,8 +111,4 @@ public class HomeActivity extends AppCompatActivity implements ServiceListener {
     }
 
 
-    @Override
-    public void sendToDB(String url, String packageName, Long date) {
-        
-    }
 }

@@ -1,20 +1,18 @@
 package ir.javadsh.challenge.service;
 
 import android.accessibilityservice.AccessibilityService;
-import android.accessibilityservice.AccessibilityServiceInfo;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-
-import java.util.List;
-
+import org.greenrobot.eventbus.EventBus;
 import ir.javadsh.challenge.ApplicationClass;
+import ir.javadsh.challenge.helper.MessageEvent;
 
 
 public class TextAccessibilityService extends AccessibilityService {
 
     String lastUrl;
-    ServiceListener serviceListener;
+
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -38,15 +36,17 @@ public class TextAccessibilityService extends AccessibilityService {
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
-                serviceListener.sendToDB(lastUrl,event.getClassName().toString(),event.getEventTime());
+                EventBus.getDefault().postSticky(new MessageEvent("javad "));
             }
         }
     }
+
 
     @Override
     public void onInterrupt() {
         Log.d(ApplicationClass.DEBUG_TAG, "TextAccessibilityService is onInterrupt");
     }
+
 
     @Override
     protected void onServiceConnected() {
