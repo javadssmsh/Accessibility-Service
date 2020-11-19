@@ -1,4 +1,4 @@
-package ir.javadsh.challenge;
+package ir.javadsh.challenge.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -8,10 +8,13 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
+import ir.javadsh.challenge.ApplicationClass;
+
 
 public class TextAccessibilityService extends AccessibilityService {
 
     String lastUrl;
+    ServiceListener serviceListener;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -35,6 +38,7 @@ public class TextAccessibilityService extends AccessibilityService {
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+                serviceListener.sendToDB(lastUrl,event.getClassName().toString(),event.getEventTime());
             }
         }
     }
