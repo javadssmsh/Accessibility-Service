@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.model.Log;
+import ir.javadsh.challenge.service.ServiceListener;
+import ir.javadsh.challenge.service.TextAccessibilityService;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -21,7 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ServiceListener {
 
     private TextView tv;
     private Button button;
@@ -85,4 +87,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void sendToDB(String url, String packageName, Long date) {
+        
+    }
 }
