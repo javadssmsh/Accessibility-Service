@@ -1,6 +1,7 @@
 package ir.javadsh.challenge;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -14,31 +15,38 @@ public class TextAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.d(ApplicationClass.DEBUG_TAG, "TextAccessibilityService is onAccessibilityEventB");
+        //Log.d(ApplicationClass.DEBUG_TAG, "TextAccessibilityService is onAccessibilityEventB");
 
         AccessibilityNodeInfo info = event.getSource();
-        Log.d(ApplicationClass.DEBUG_TAG, "whole event is : " + event.toString());
-        if (info != null) {
-            list = info.findAccessibilityNodeInfosByText("facebook");
-            Log.d(ApplicationClass.DEBUG_TAG, "whole info is : " + info.toString());
-            Log.d(ApplicationClass.DEBUG_TAG, "/n");
-        }
-
-        if (info == null || info.getText() == null || info.getClassName() == null || !event.getClassName().equals("android.widget.EditText")
-                || event.getPackageName().equals(getPackageName())) {
-
-            return;
-        } else {
-            String inputText = event.getText().toString();
-            String recorderTime = String.valueOf(event.getEventTime());
-            Log.d(ApplicationClass.DEBUG_TAG, "text string is : " + inputText);
-            Log.d(ApplicationClass.DEBUG_TAG, "recorderTime is : " + recorderTime);
-            // process text here
+/*        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");*/
+        if (info != null && info.getText() != null) {
+            String requiredText = info.getText().toString();
+            if (requiredText.contains("https") | requiredText.contains("http")) {
+                Log.d(ApplicationClass.DEBUG_TAG, "whole info text is : =============>>>>>>>>>" + info.getText().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, " getEventType text is : =============>>>>>>>>>" + event.getEventType());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getClassName().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getPackageName().toString());
+            }
+/*            if (requiredText.contains("پرداخت")) {
+                Log.d(ApplicationClass.DEBUG_TAG, "whole info text is : =============>>>>>>>>>" + info.getText().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, " getEventType text is : =============>>>>>>>>>" + event.getEventType());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getClassName().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getPackageName().toString());
+            }*/
         }
     }
 
     @Override
     public void onInterrupt() {
         Log.d(ApplicationClass.DEBUG_TAG, "TextAccessibilityService is onInterrupt");
+    }
+
+    @Override
+    protected void onServiceConnected() {
+
+
     }
 }
