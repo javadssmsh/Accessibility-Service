@@ -11,31 +11,31 @@ import java.util.List;
 
 public class TextAccessibilityService extends AccessibilityService {
 
-    List<AccessibilityNodeInfo> list;
+    String lastUrl;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         //Log.d(ApplicationClass.DEBUG_TAG, "TextAccessibilityService is onAccessibilityEventB");
 
         AccessibilityNodeInfo info = event.getSource();
-/*        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
-        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
-        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
-        Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");*/
+
         if (info != null && info.getText() != null) {
             String requiredText = info.getText().toString();
             if (requiredText.contains("https") | requiredText.contains("http")) {
-                Log.d(ApplicationClass.DEBUG_TAG, "whole info text is : =============>>>>>>>>>" + info.getText().toString());
-                Log.d(ApplicationClass.DEBUG_TAG, " getEventType text is : =============>>>>>>>>>" + event.getEventType());
-                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getClassName().toString());
-                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getPackageName().toString());
+                lastUrl = requiredText;
             }
-/*            if (requiredText.contains("پرداخت")) {
-                Log.d(ApplicationClass.DEBUG_TAG, "whole info text is : =============>>>>>>>>>" + info.getText().toString());
+            if (requiredText.contains("پرداخت")) {
+                Log.d(ApplicationClass.DEBUG_TAG, " Specific url is : =============>>>>>>>>>" + lastUrl);
+                Log.d(ApplicationClass.DEBUG_TAG, " Specific info text is : =============>>>>>>>>>" + info.getText().toString());
                 Log.d(ApplicationClass.DEBUG_TAG, " getEventType text is : =============>>>>>>>>>" + event.getEventType());
                 Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getClassName().toString());
-                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getPackageName().toString());
-            }*/
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getPackageName is : =============>>>>>>>>>" + event.getPackageName().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getEventTime());
+                Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+                Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+                Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+                Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
+            }
         }
     }
 
