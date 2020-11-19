@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private TextView tv;
     private Button button;
+    private ReportLog reportLog;
 
     @Override
     protected void onStart() {
@@ -44,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
 
         tv = findViewById(R.id.textView);
         button = findViewById(R.id.button);
+        reportLog = new ReportLog();
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         for (int i = 0; i < 10; i++) {
             ReportLog reportLog = new ReportLog();
             reportLog.setBrowserName("کروم" + i);
-            reportLog.setCreatedDate("" + i + ":" + i);
+            reportLog.setCreatedDate((long) i);
             reportLog.setImgUrl("");
             reportLog.setUrl("javadssmh@gmail.com");
             reportLogs.add(reportLog);
@@ -74,10 +77,11 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Subscribe
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
         //Toast.makeText(this, "Hey, my message" + event.getMessage(), Toast.LENGTH_SHORT).show();
-        android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is " + event.getMessage());
+        reportLog = event.getMessage();
+        android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is "+ reportLog.getBrowserName());
     }
 
 

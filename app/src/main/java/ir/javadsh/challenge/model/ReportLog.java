@@ -4,7 +4,7 @@ public class ReportLog {
     private String imgUrl;
     private String BrowserName;
     private String url;
-    private String createdDate;
+    private Long createdDate;
 
     public String getImgUrl() {
         return imgUrl;
@@ -30,11 +30,11 @@ public class ReportLog {
         this.url = url;
     }
 
-    public String getCreatedDate() {
+    public Long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
 }

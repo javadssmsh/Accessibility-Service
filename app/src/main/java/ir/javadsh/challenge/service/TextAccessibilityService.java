@@ -29,17 +29,25 @@ public class TextAccessibilityService extends AccessibilityService {
                 lastUrl = requiredText;
             }
             if (requiredText.contains("پرداخت")) {
-                Log.d(ApplicationClass.DEBUG_TAG, " Specific url is : =============>>>>>>>>>" + lastUrl);
+/*                Log.d(ApplicationClass.DEBUG_TAG, " Specific url is : =============>>>>>>>>>" + lastUrl);
                 Log.d(ApplicationClass.DEBUG_TAG, " Specific info text is : =============>>>>>>>>>" + info.getText().toString());
                 Log.d(ApplicationClass.DEBUG_TAG, " getEventType text is : =============>>>>>>>>>" + event.getEventType());
                 Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getClassName().toString());
                 Log.d(ApplicationClass.DEBUG_TAG, "whole event getPackageName is : =============>>>>>>>>>" + event.getPackageName().toString());
-                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getEventTime());
+                Log.d(ApplicationClass.DEBUG_TAG, "whole event getClassName is : =============>>>>>>>>>" + event.getEventTime());*/
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 Log.d(ApplicationClass.DEBUG_TAG, "::::::::::::::::::::");
                 ReportLog reportLog = new ReportLog();
+                reportLog.setBrowserName(event.getPackageName().toString());
+                reportLog.setCreatedDate(event.getEventTime());
+                if (lastUrl != null) {
+                    reportLog.setUrl(lastUrl);
+                } else {
+                    reportLog.setUrl("لینکی پیدا نشد");
+                }
+                reportLog.setImgUrl("");
                 EventBus.getDefault().postSticky(new MessageEvent(reportLog));
             }
         }
