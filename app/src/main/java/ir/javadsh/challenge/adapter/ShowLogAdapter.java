@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,9 +36,11 @@ public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewH
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
         ReportLog reportLog = reportLogList.get(position);
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(reportLog.getCreatedDate());
+
         holder.urlTv.setText(reportLog.getUrl());
         holder.browserNameTv.setText(reportLog.getBrowserName());
-        holder.createdDateTv.setText(String.valueOf(reportLog.getCreatedDate()));
+        holder.createdDateTv.setText(currentDate);
     }
 
     @Override
