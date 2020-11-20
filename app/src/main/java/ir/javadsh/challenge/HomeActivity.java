@@ -35,13 +35,11 @@ import ir.javadsh.challenge.service.TextAccessibilityService;
 public class HomeActivity extends AppCompatActivity {
 
     private TextView tv;
-    private Button button;
     List<ReportLog> reportLogs;
     AppDataBase dataBase;
     ShowLogAdapter adapter;
     public static List<ReportLog> staticLogs = new ArrayList<>();
     SwitchMaterial switchMaterial;
-    //private ReportLog reportLog;
 
     @Override
     protected void onStart() {
@@ -57,7 +55,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         tv = findViewById(R.id.textView);
-        button = findViewById(R.id.button);
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         switchMaterial = findViewById(R.id.switch_button);
         dataBase = AppDataBase.getInstance(this);
@@ -71,13 +68,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                startActivity(intent);
-            }
-        });
 
         //
         reportLogs = dataBase.getReportLogDao().getAllLogs();
@@ -118,12 +108,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
-            tv.setText("Accessibility Service is NOT enabled");
-            button.setText("Enable");
+            //tv.setText("Accessibility Service is NOT enabled");
             switchMaterial.setChecked(false);
         } else {
-            tv.setText("Accessibility Service is ENABLED");
-            button.setText("Disable");
+            //tv.setText("Accessibility Service is ENABLED");
             switchMaterial.setChecked(true);
         }
         adapter.notifyDataSetChanged();
