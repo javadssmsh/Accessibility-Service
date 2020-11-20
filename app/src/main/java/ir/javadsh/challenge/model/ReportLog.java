@@ -1,23 +1,17 @@
 package ir.javadsh.challenge.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class ReportLog {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String imgUrl;
     private String BrowserName;
     private String url;
     private Long createdDate;
-
-    public ReportLog(String imgUrl, String browserName, String url, Long createdDate) {
-        this.imgUrl = imgUrl;
-        BrowserName = browserName;
-        this.url = url;
-        this.createdDate = createdDate;
-    }
 
     public ReportLog() {
     }

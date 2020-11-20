@@ -7,6 +7,10 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import ir.javadsh.challenge.ApplicationClass;
 import ir.javadsh.challenge.HomeActivity;
 import ir.javadsh.challenge.helper.MessageEvent;
@@ -49,8 +53,8 @@ public class TextAccessibilityService extends AccessibilityService {
                     reportLog.setUrl("لینکی پیدا نشد");
                 }
                 reportLog.setImgUrl("");
-                HomeActivity.staticLogs.add(reportLog);
-                //EventBus.getDefault().postSticky(new MessageEvent(reportLog));
+                //HomeActivity.staticLogs.add(reportLog);
+                EventBus.getDefault().postSticky(new MessageEvent(reportLog));
             }
         }
     }

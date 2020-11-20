@@ -54,7 +54,9 @@ public class HomeActivity extends AppCompatActivity {
 
         tv = findViewById(R.id.textView);
         button = findViewById(R.id.button);
+        RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         dataBase = AppDataBase.getInstance(this);
+        reportLogs = new ArrayList<>();
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -66,12 +68,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         //
-        reportLogs = new ArrayList<>();
         reportLogs = dataBase.getReportLogDao().getAllLogs();
-        RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         showLogRecyclerView.setHasFixedSize(true);
-        adapter = new ShowLogAdapter(this, staticLogs);
+        adapter = new ShowLogAdapter(this, reportLogs);
         showLogRecyclerView.setLayoutManager(linearLayoutManager);
         showLogRecyclerView.setAdapter(adapter);
 
@@ -85,12 +85,18 @@ public class HomeActivity extends AppCompatActivity {
             String imgUrl = event.getMessage().getImgUrl();
             Long time = event.getMessage().getCreatedDate();
             String packageName = event.getMessage().getBrowserName();
-            ReportLog reportLog = new ReportLog(imgUrl, packageName, url, time);
+            ReportLog reportLog = new ReportLog();
+            reportLog.setUrl(url);
+            reportLog.setImgUrl(imgUrl);
+            reportLog.setCreatedDate(time);
+            reportLog.setBrowserName(packageName);
+
             android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is " + reportLog.getUrl());
 
             //create class
             dataBase.getReportLogDao().saveLog(reportLog);
             adapter.addLogReport(reportLog);
+            staticLogs.add(reportLog);
         }
     }
 
