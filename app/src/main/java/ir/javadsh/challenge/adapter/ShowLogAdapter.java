@@ -33,7 +33,10 @@ public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewH
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
-
+        ReportLog reportLog = reportLogList.get(position);
+        holder.urlTv.setText(reportLog.getUrl());
+        holder.browserNameTv.setText(reportLog.getBrowserName());
+        holder.createdDateTv.setText(String.valueOf(reportLog.getCreatedDate()));
     }
 
     @Override
