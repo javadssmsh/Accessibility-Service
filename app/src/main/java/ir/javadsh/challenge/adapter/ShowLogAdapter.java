@@ -41,6 +41,11 @@ public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewH
         return reportLogList.size();
     }
 
+    public void addLogReport(ReportLog reportLog) {
+        reportLogList.add(reportLog);
+        notifyDataSetChanged();
+    }
+
     public class LogViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView urlTv;
