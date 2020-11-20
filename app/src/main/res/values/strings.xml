@@ -5,6 +5,6 @@
     <string name="url">URL :</string>
 
 
-    <string name="accessibility_service_description">Monitors text events.</string>
+    <string name="accessibility_service_description">This access allows to the app to view specific words</string>
 
 </resources>
