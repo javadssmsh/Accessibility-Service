@@ -1,10 +1,26 @@
 package ir.javadsh.challenge.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class ReportLog {
+    @PrimaryKey
+    private int id;
     private String imgUrl;
     private String BrowserName;
     private String url;
     private Long createdDate;
+
+    public ReportLog(String imgUrl, String browserName, String url, Long createdDate) {
+        this.imgUrl = imgUrl;
+        BrowserName = browserName;
+        this.url = url;
+        this.createdDate = createdDate;
+    }
+
+    public ReportLog() {
+    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -36,5 +52,13 @@ public class ReportLog {
 
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
