@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     AppDataBase dataBase;
     ShowLogAdapter adapter;
     public static List<ReportLog> staticLogs = new ArrayList<>();
+    SwitchMaterial switchMaterial;
     //private ReportLog reportLog;
 
     @Override
@@ -55,9 +59,17 @@ public class HomeActivity extends AppCompatActivity {
         tv = findViewById(R.id.textView);
         button = findViewById(R.id.button);
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
+        switchMaterial = findViewById(R.id.switch_button);
         dataBase = AppDataBase.getInstance(this);
         reportLogs = new ArrayList<>();
 
+        switchMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +83,8 @@ public class HomeActivity extends AppCompatActivity {
         reportLogs = dataBase.getReportLogDao().getAllLogs();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         showLogRecyclerView.setHasFixedSize(true);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         adapter = new ShowLogAdapter(this, reportLogs);
         showLogRecyclerView.setLayoutManager(linearLayoutManager);
         showLogRecyclerView.setAdapter(adapter);
@@ -106,13 +120,11 @@ public class HomeActivity extends AppCompatActivity {
         if (!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
             tv.setText("Accessibility Service is NOT enabled");
             button.setText("Enable");
+            switchMaterial.setChecked(false);
         } else {
             tv.setText("Accessibility Service is ENABLED");
             button.setText("Disable");
-        }
-
-        for (ReportLog log : staticLogs) {
-            Log.d(ApplicationClass.DEBUG_TAG, "static list is => " + log);
+            switchMaterial.setChecked(true);
         }
         adapter.notifyDataSetChanged();
     }
