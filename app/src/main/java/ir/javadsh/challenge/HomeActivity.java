@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.helper.MessageEvent;
+import ir.javadsh.challenge.model.AppDataBase;
 import ir.javadsh.challenge.model.ReportLog;
 import ir.javadsh.challenge.service.TextAccessibilityService;
 
@@ -31,12 +33,18 @@ public class HomeActivity extends AppCompatActivity {
 
     private TextView tv;
     private Button button;
-    private ReportLog reportLog;
+    List<ReportLog> reportLogs;
+    AppDataBase dataBase;
+    ShowLogAdapter adapter;
+    public static List<ReportLog> staticLogs = new ArrayList<>();
+    //private ReportLog reportLog;
 
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -46,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
 
         tv = findViewById(R.id.textView);
         button = findViewById(R.id.button);
-        reportLog = new ReportLog();
+        dataBase = AppDataBase.getInstance(this);
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -58,20 +66,12 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         //
-        List<ReportLog> reportLogs = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            ReportLog reportLog = new ReportLog();
-            reportLog.setBrowserName("کروم" + i);
-            reportLog.setCreatedDate((long) i);
-            reportLog.setImgUrl("");
-            reportLog.setUrl("javadssmh@gmail.com");
-            reportLogs.add(reportLog);
-        }
-
+        reportLogs = new ArrayList<>();
+        reportLogs = dataBase.getReportLogDao().getAllLogs();
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         showLogRecyclerView.setHasFixedSize(true);
-        ShowLogAdapter adapter = new ShowLogAdapter(this, reportLogs);
+        adapter = new ShowLogAdapter(this, staticLogs);
         showLogRecyclerView.setLayoutManager(linearLayoutManager);
         showLogRecyclerView.setAdapter(adapter);
 
@@ -80,8 +80,18 @@ public class HomeActivity extends AppCompatActivity {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
         //Toast.makeText(this, "Hey, my message" + event.getMessage(), Toast.LENGTH_SHORT).show();
-        reportLog = event.getMessage();
-        android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is "+ reportLog.getBrowserName());
+        if (event != null) {
+            String url = event.getMessage().getUrl();
+            String imgUrl = event.getMessage().getImgUrl();
+            Long time = event.getMessage().getCreatedDate();
+            String packageName = event.getMessage().getBrowserName();
+            ReportLog reportLog = new ReportLog(imgUrl, packageName, url, time);
+            android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is " + reportLog.getUrl());
+
+            //create class
+            dataBase.getReportLogDao().saveLog(reportLog);
+            adapter.addLogReport(reportLog);
+        }
     }
 
 
@@ -94,6 +104,11 @@ public class HomeActivity extends AppCompatActivity {
             tv.setText("Accessibility Service is ENABLED");
             button.setText("Disable");
         }
+
+        for (ReportLog log : staticLogs) {
+            Log.d(ApplicationClass.DEBUG_TAG, "static list is => " + log);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
