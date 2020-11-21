@@ -7,7 +7,7 @@
     tools:context=".HomeActivity">
 
     <LinearLayout
-        android:id="@+id/liner"
+        android:id="@+id/accessibility_service_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView"
+            android:id="@+id/accessibility_service_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
@@ -25,19 +25,45 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_button"
+            android:id="@+id/accessibility_service_switch_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/draw_over_other_app_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accessibility_service_layout">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/draw_over_other_app_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="Draw Other App :"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/draw_over_other_app_switch_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_log_rv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/liner" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/draw_over_other_app_layout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

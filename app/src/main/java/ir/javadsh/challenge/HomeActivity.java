@@ -5,13 +5,16 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
+import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -23,6 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +43,11 @@ public class HomeActivity extends AppCompatActivity {
     AppDataBase dataBase;
     ShowLogAdapter adapter;
     public static List<ReportLog> staticLogs = new ArrayList<>();
-    SwitchMaterial switchMaterial;
+    SwitchMaterial switchMaterialService;
+    SwitchMaterial switchMaterialDraw;
+    WindowManager wm;
+    LayoutInflater inflater;
+    View myView;
 
     @Override
     protected void onStart() {
@@ -54,16 +62,28 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        tv = findViewById(R.id.textView);
+        //initialization
+        tv = findViewById(R.id.accessibility_service_textView);
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
-        switchMaterial = findViewById(R.id.switch_button);
+        switchMaterialService = findViewById(R.id.accessibility_service_switch_button);
+        switchMaterialDraw = findViewById(R.id.draw_over_other_app_switch_button);
         dataBase = AppDataBase.getInstance(this);
         reportLogs = new ArrayList<>();
 
-        switchMaterial.setOnClickListener(new View.OnClickListener() {
+        //permission
+        switchMaterialService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        switchMaterialDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
                 startActivity(intent);
             }
         });
@@ -79,6 +99,46 @@ public class HomeActivity extends AppCompatActivity {
         showLogRecyclerView.setLayoutManager(linearLayoutManager);
         showLogRecyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ApplicationClass.DRAW_OTHER_APP_PERMISSION) {
+            Log.d(ApplicationClass.DEBUG_TAG, "result is :" + resultCode);
+        }
+    }
+
+    public void showOverOtherApp() {
+        // WindowManager
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT);
+
+        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        myView = inflater.inflate(R.layout.item_interance_to_app, null);
+        myView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d(ApplicationClass.DEBUG_TAG, "touch me");
+                closeOverOtherApp();
+                return true;
+            }
+        });
+
+        // Add layout to window manager
+        wm.addView(myView, params);
+    }
+
+    public void closeOverOtherApp() {
+        wm.removeView(myView);
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -101,6 +161,7 @@ public class HomeActivity extends AppCompatActivity {
             dataBase.getReportLogDao().saveLog(reportLog);
             adapter.addLogReport(reportLog);
             staticLogs.add(reportLog);
+            showOverOtherApp();
         }
     }
 
@@ -108,11 +169,14 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!isAccessibilityServiceEnabled(this, TextAccessibilityService.class)) {
-            //tv.setText("Accessibility Service is NOT enabled");
-            switchMaterial.setChecked(false);
+            switchMaterialService.setChecked(false);
         } else {
-            //tv.setText("Accessibility Service is ENABLED");
-            switchMaterial.setChecked(true);
+            switchMaterialService.setChecked(true);
+        }
+        if (!Settings.canDrawOverlays(this)) {
+            switchMaterialDraw.setChecked(false);
+        } else {
+            switchMaterialDraw.setChecked(true);
         }
         adapter.notifyDataSetChanged();
     }
