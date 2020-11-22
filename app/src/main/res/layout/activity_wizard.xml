@@ -19,7 +19,7 @@
 
     <Button
         android:id="@+id/btnOrder"
-        android:text="Order Now!"
+        android:text="@string/start"
         android:textColor="#fff"
         android:background="@drawable/round"
         android:paddingLeft="30dp"

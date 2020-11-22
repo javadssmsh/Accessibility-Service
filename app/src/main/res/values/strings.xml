@@ -8,5 +8,6 @@
     <string name="accessibility_service_description">This access allows to the app to view specific words</string>
     <string name="touch_to_open_the_app">Touch to open the app</string>
     <string name="not_founf_link">Not Found Link</string>
+    <string name="start">Start</string>
 
 </resources>

@@ -3,8 +3,8 @@
     android:id="@+id/item_entrance_to_app_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/item_color"
-    app:cardBackgroundColor="@color/item_color"
+    android:background="@color/background"
+    app:cardBackgroundColor="@color/background"
     android:layout_width="300dp"
     android:layout_height="100dp">
 

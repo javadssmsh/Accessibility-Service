@@ -39,7 +39,7 @@ public class WizardAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item, container, false);
+        View view = layoutInflater.inflate(R.layout.wizard_item, container, false);
 
         ImageView imageView;
         TextView title, desc;
