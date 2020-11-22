@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/item_entrance_to_app_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/item_color"
+    app:cardBackgroundColor="@color/item_color"
     android:layout_width="300dp"
     android:layout_height="100dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Touch to open the app"
+        android:id="@+id/item_entrance_to_app_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/touch_to_open_the_app"
+        android:layout_margin="@dimen/margin_2"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_entrance_to_app_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_touch"
+        app:layout_constraintTop_toBottomOf="@id/item_entrance_to_app_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="cancel"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
