@@ -45,9 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     public static List<ReportLog> staticLogs = new ArrayList<>();
     SwitchMaterial switchMaterialService;
     SwitchMaterial switchMaterialDraw;
-    WindowManager wm;
-    LayoutInflater inflater;
-    View myView;
+
 
     @Override
     protected void onStart() {
@@ -110,36 +108,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void showOverOtherApp() {
-        // WindowManager
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
-
-        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        myView = inflater.inflate(R.layout.item_interance_to_app, null);
-        myView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(ApplicationClass.DEBUG_TAG, "touch me");
-                closeOverOtherApp();
-                return true;
-            }
-        });
-
-        // Add layout to window manager
-        wm.addView(myView, params);
-    }
-
-    public void closeOverOtherApp() {
-        wm.removeView(myView);
-    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent event) {
@@ -161,7 +129,6 @@ public class HomeActivity extends AppCompatActivity {
             dataBase.getReportLogDao().saveLog(reportLog);
             adapter.addLogReport(reportLog);
             staticLogs.add(reportLog);
-            showOverOtherApp();
         }
     }
 
