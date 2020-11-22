@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged|typeWindowsChanged"
-    android:canRetrieveWindowContent="true"
+    android:accessibilityEventTypes="typeWindowContentChanged"
     android:accessibilityFeedbackType="feedbackAllMask"
+    android:accessibilityFlags="flagDefault|flagRequestEnhancedWebAccessibility|flagIncludeNotImportantViews|flagReportViewIds|flagRetrieveInteractiveWindows"
+    android:canRetrieveWindowContent="true"
     android:description="@string/accessibility_service_description"
     android:notificationTimeout="10"
-    android:accessibilityFlags="flagDefault|flagRequestEnhancedWebAccessibility|flagIncludeNotImportantViews|flagReportViewIds|flagRetrieveInteractiveWindows"
     android:summary="Service is used to read specific word" />
 
 
-
-
-<!--
-
-
--->
