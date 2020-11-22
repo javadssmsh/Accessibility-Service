@@ -1,10 +1,12 @@
-package ir.javadsh.challenge.model;
+package ir.javadsh.challenge.db;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import ir.javadsh.challenge.db.model.ReportLog;
+import ir.javadsh.challenge.db.model.ReportLogDao;
 
 
 @Database(entities = ReportLog.class, version = 1)

@@ -5,15 +5,11 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
-import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 
@@ -32,8 +28,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.helper.MessageEvent;
-import ir.javadsh.challenge.model.AppDataBase;
-import ir.javadsh.challenge.model.ReportLog;
+import ir.javadsh.challenge.db.AppDataBase;
+import ir.javadsh.challenge.db.model.ReportLog;
 import ir.javadsh.challenge.service.TextAccessibilityService;
 
 public class HomeActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package ir.javadsh.challenge.model;
+package ir.javadsh.challenge.db.model;
 
 import java.util.List;
 

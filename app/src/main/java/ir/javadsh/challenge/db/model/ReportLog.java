@@ -1,7 +1,6 @@
-package ir.javadsh.challenge.model;
+package ir.javadsh.challenge.db.model;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity

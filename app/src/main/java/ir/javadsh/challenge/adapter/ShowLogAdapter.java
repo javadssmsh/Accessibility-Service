@@ -14,7 +14,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.R;
-import ir.javadsh.challenge.model.ReportLog;
+import ir.javadsh.challenge.db.model.ReportLog;
 
 public class ShowLogAdapter extends RecyclerView.Adapter<ShowLogAdapter.LogViewHolder> {
 

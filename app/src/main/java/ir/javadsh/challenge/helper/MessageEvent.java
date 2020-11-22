@@ -1,6 +1,6 @@
 package ir.javadsh.challenge.helper;
 
-import ir.javadsh.challenge.model.ReportLog;
+import ir.javadsh.challenge.db.model.ReportLog;
 
 public class MessageEvent {
 

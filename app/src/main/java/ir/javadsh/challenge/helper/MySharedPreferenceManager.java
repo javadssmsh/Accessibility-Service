@@ -1,4 +1,4 @@
-package ir.javadsh.challenge;
+package ir.javadsh.challenge.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

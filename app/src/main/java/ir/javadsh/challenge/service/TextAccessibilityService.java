@@ -2,11 +2,8 @@ package ir.javadsh.challenge.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.provider.Browser;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,20 +14,14 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import ir.javadsh.challenge.ApplicationClass;
-import ir.javadsh.challenge.HomeActivity;
 import ir.javadsh.challenge.R;
 import ir.javadsh.challenge.helper.MessageEvent;
-import ir.javadsh.challenge.model.ReportLog;
+import ir.javadsh.challenge.db.model.ReportLog;
 
 
 public class TextAccessibilityService extends AccessibilityService {
