@@ -1,7 +1,6 @@
-package ir.javadsh.challenge;
+package ir.javadsh.challenge.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,23 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+import ir.javadsh.challenge.R;
+import ir.javadsh.challenge.model.WizardModel;
 
-public class Adapter extends PagerAdapter {
+public class WizardAdapter extends PagerAdapter {
 
-    private List<Model> models;
+    private List<WizardModel> wizardModels;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public Adapter(List<Model> models, Context context) {
-        this.models = models;
+    public WizardAdapter(List<WizardModel> wizardModels, Context context) {
+        this.wizardModels = wizardModels;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return models.size();
+        return wizardModels.size();
     }
 
     @Override
@@ -47,9 +48,9 @@ public class Adapter extends PagerAdapter {
         title = view.findViewById(R.id.title);
         desc = view.findViewById(R.id.desc);
 
-        imageView.setImageResource(models.get(position).getImage());
-        title.setText(models.get(position).getTitle());
-        desc.setText(models.get(position).getDesc());
+        imageView.setImageResource(wizardModels.get(position).getImage());
+        title.setText(wizardModels.get(position).getTitle());
+        desc.setText(wizardModels.get(position).getDesc());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

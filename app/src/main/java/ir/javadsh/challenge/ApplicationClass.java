@@ -3,6 +3,8 @@ package ir.javadsh.challenge;
 import android.app.Application;
 import android.content.Intent;
 
+import ir.javadsh.challenge.activity.HomeActivity;
+import ir.javadsh.challenge.activity.WizardActivity;
 import ir.javadsh.challenge.helper.MySharedPreferenceManager;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;

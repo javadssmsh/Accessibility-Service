@@ -1,12 +1,12 @@
-package ir.javadsh.challenge;
+package ir.javadsh.challenge.model;
 
-public class Model {
+public class WizardModel {
 
     private int image;
     private String title;
     private String desc;
 
-    public Model(int image, String title, String desc) {
+    public WizardModel(int image, String title, String desc) {
         this.image = image;
         this.title = title;
         this.desc = desc;

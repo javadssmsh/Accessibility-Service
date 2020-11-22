@@ -1,4 +1,4 @@
-package ir.javadsh.challenge;
+package ir.javadsh.challenge.activity;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
@@ -26,6 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import ir.javadsh.challenge.ApplicationClass;
+import ir.javadsh.challenge.R;
 import ir.javadsh.challenge.adapter.ShowLogAdapter;
 import ir.javadsh.challenge.helper.MessageEvent;
 import ir.javadsh.challenge.db.AppDataBase;
