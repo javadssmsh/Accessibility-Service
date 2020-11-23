@@ -2,14 +2,20 @@ package ir.javadsh.challenge.activity;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
+import android.graphics.PixelFormat;
 import android.net.Uri;
+import android.os.Binder;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 
@@ -138,7 +144,18 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             switchMaterialService.setChecked(true);
         }
+        Log.d(ApplicationClass.DEBUG_TAG, "state is : " + Settings.canDrawOverlays(this));
         if (!Settings.canDrawOverlays(this)) {
+            switchMaterialDraw.setChecked(false);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (Settings.canDrawOverlays(HomeActivity.this)){
+                        switchMaterialDraw.setChecked(true);
+                    }
+                }
+            }, 500);
             switchMaterialDraw.setChecked(false);
         } else {
             switchMaterialDraw.setChecked(true);

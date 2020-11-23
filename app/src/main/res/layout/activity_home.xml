@@ -22,7 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:text="Accessibility Service :"
+            android:text="@string/accessibility_service"
+            android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -48,14 +49,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:text="Draw Other App :"
+            android:text="@string/draw_over_other_app"
+            android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/draw_over_other_app_switch_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

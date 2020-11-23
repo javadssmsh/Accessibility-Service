@@ -9,5 +9,7 @@
     <string name="touch_to_open_the_app">Touch to open the app</string>
     <string name="not_founf_link">Not Found Link</string>
     <string name="start">Start</string>
+    <string name="draw_over_other_app">Draw Over Other App :</string>
+    <string name="accessibility_service">Accessibility Service :</string>
 
 </resources>
