@@ -81,11 +81,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_3"
-            app:layout_constraintBottom_toTopOf="@+id/clear_all"
+            app:layout_constraintBottom_toTopOf="@+id/clear_all_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/clear_all"
+            android:id="@+id/clear_all_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_2"
