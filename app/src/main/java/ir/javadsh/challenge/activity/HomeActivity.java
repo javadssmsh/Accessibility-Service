@@ -2,22 +2,17 @@ package ir.javadsh.challenge.activity;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
-import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.os.Binder;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,11 +44,12 @@ public class HomeActivity extends AppCompatActivity {
     List<ReportLog> reportLogs;
     AppDataBase dataBase;
     ShowLogAdapter adapter;
-    public static List<ReportLog> staticLogs = new ArrayList<>();
+    //public static List<ReportLog> staticLogs = new ArrayList<>();
     SwitchMaterial switchMaterialService;
     SwitchMaterial switchMaterialDraw;
     ConstraintLayout contentLayout;
     RelativeLayout emptyLayout;
+    Button clearAllDataBtn;
 
 
     @Override
@@ -73,15 +69,30 @@ public class HomeActivity extends AppCompatActivity {
         tv = findViewById(R.id.accessibility_service_textView);
         contentLayout = findViewById(R.id.content_layout);
         emptyLayout = findViewById(R.id.empty_layout);
+        clearAllDataBtn = findViewById(R.id.clear_all_btn);
         tv = findViewById(R.id.accessibility_service_textView);
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         switchMaterialService = findViewById(R.id.accessibility_service_switch_button);
         switchMaterialDraw = findViewById(R.id.draw_over_other_app_switch_button);
         dataBase = AppDataBase.getInstance(this);
         reportLogs = new ArrayList<>();
+        reportLogs = dataBase.getReportLogDao().getAllLogs();
         adapter = new ShowLogAdapter(this, reportLogs);
 
-        //permission
+        changeViewState(true);
+        if (reportLogs.size() == 0) {
+            changeViewState(true);
+        } else {
+            changeViewState(false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            showLogRecyclerView.setHasFixedSize(true);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+            showLogRecyclerView.setLayoutManager(linearLayoutManager);
+            showLogRecyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
         switchMaterialService.setOnClickListener(view -> {
             Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
             startActivity(intent);
@@ -93,21 +104,12 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-        //
-        reportLogs = dataBase.getReportLogDao().getAllLogs();
-        if (reportLogs.size() == 0) {
-            changeViewState(true);
-        } else {
-            changeViewState(false);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            showLogRecyclerView.setHasFixedSize(true);
-            linearLayoutManager.setReverseLayout(true);
-            linearLayoutManager.setStackFromEnd(true);
-            showLogRecyclerView.setLayoutManager(linearLayoutManager);
-            showLogRecyclerView.setAdapter(adapter);
-        }
-
+        clearAllDataBtn.setOnClickListener(view -> {
+            dataBase.getReportLogDao().deleteAll();
+            if (dataBase.getReportLogDao().getAllLogs().size() == 0) {
+                changeViewState(true);
+            }
+        });
 
     }
 
@@ -123,9 +125,9 @@ public class HomeActivity extends AppCompatActivity {
     void changeViewState(Boolean isEmpty) {
         if (isEmpty) {
             emptyLayout.setVisibility(View.VISIBLE);
-            contentLayout.setVisibility(View.INVISIBLE);
+            contentLayout.setVisibility(View.GONE);
         } else {
-            emptyLayout.setVisibility(View.INVISIBLE);
+            emptyLayout.setVisibility(View.GONE);
             contentLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -148,9 +150,20 @@ public class HomeActivity extends AppCompatActivity {
             android.util.Log.d(ApplicationClass.DEBUG_TAG, "bus event in home activity is " + reportLog.getUrl());
 
             //create class
-            dataBase.getReportLogDao().saveLog(reportLog);
-            adapter.addLogReport(reportLog);
-            staticLogs.add(reportLog);
+            List<ReportLog> list = dataBase.getReportLogDao().getAllLogs();
+            if (list.size() != 0) {
+                for (ReportLog log : list) {
+                    if (!log.getCreatedDate().equals(reportLog.getCreatedDate())) {
+                        dataBase.getReportLogDao().saveLog(reportLog);
+                        adapter.addLogReport(reportLog);
+                    }
+                }
+            } else {
+                dataBase.getReportLogDao().saveLog(reportLog);
+                adapter.addLogReport(reportLog);
+            }
+            adapter.notifyDataSetChanged();
+            //staticLogs.add(reportLog);
         }
     }
 
@@ -204,4 +217,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        Log.d(ApplicationClass.DEBUG_TAG, "HomeActivity (onDestroy)");
+        Intent intent = new Intent(HomeActivity.this, TextAccessibilityService.class);
+        stopService(intent);
+        super.onDestroy();
+    }
 }
