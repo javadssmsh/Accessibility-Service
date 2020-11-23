@@ -11,5 +11,7 @@
     <string name="start">Start</string>
     <string name="draw_over_other_app">Draw Over Other App :</string>
     <string name="accessibility_service">Accessibility Service :</string>
+    <string name="there_are_no_items_to_display">There are no items to display!</string>
+    <string name="clear_data">Clear data</string>
 
 </resources>

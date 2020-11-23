@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/btnOrder"
         android:text="@string/start"
-        android:textColor="#fff"
+        android:textColor="@color/black"
         android:background="@drawable/round_button"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"

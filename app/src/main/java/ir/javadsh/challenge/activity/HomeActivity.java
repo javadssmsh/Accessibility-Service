@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -30,6 +32,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ir.javadsh.challenge.ApplicationClass;
@@ -49,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
     public static List<ReportLog> staticLogs = new ArrayList<>();
     SwitchMaterial switchMaterialService;
     SwitchMaterial switchMaterialDraw;
+    ConstraintLayout contentLayout;
+    RelativeLayout emptyLayout;
 
 
     @Override
@@ -66,11 +71,15 @@ public class HomeActivity extends AppCompatActivity {
 
         //initialization
         tv = findViewById(R.id.accessibility_service_textView);
+        contentLayout = findViewById(R.id.content_layout);
+        emptyLayout = findViewById(R.id.empty_layout);
+        tv = findViewById(R.id.accessibility_service_textView);
         RecyclerView showLogRecyclerView = findViewById(R.id.show_log_rv);
         switchMaterialService = findViewById(R.id.accessibility_service_switch_button);
         switchMaterialDraw = findViewById(R.id.draw_over_other_app_switch_button);
         dataBase = AppDataBase.getInstance(this);
         reportLogs = new ArrayList<>();
+        adapter = new ShowLogAdapter(this, reportLogs);
 
         //permission
         switchMaterialService.setOnClickListener(view -> {
@@ -87,13 +96,18 @@ public class HomeActivity extends AppCompatActivity {
 
         //
         reportLogs = dataBase.getReportLogDao().getAllLogs();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        showLogRecyclerView.setHasFixedSize(true);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        adapter = new ShowLogAdapter(this, reportLogs);
-        showLogRecyclerView.setLayoutManager(linearLayoutManager);
-        showLogRecyclerView.setAdapter(adapter);
+        if (reportLogs.size() == 0) {
+            changeViewState(true);
+        } else {
+            changeViewState(false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            showLogRecyclerView.setHasFixedSize(true);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+            showLogRecyclerView.setLayoutManager(linearLayoutManager);
+            showLogRecyclerView.setAdapter(adapter);
+        }
+
 
     }
 
@@ -103,6 +117,16 @@ public class HomeActivity extends AppCompatActivity {
 
         if (requestCode == ApplicationClass.DRAW_OTHER_APP_PERMISSION) {
             Log.d(ApplicationClass.DEBUG_TAG, "result is :" + resultCode);
+        }
+    }
+
+    void changeViewState(Boolean isEmpty) {
+        if (isEmpty) {
+            emptyLayout.setVisibility(View.VISIBLE);
+            contentLayout.setVisibility(View.INVISIBLE);
+        } else {
+            emptyLayout.setVisibility(View.INVISIBLE);
+            contentLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -145,7 +169,7 @@ public class HomeActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (Settings.canDrawOverlays(HomeActivity.this)){
+                    if (Settings.canDrawOverlays(HomeActivity.this)) {
                         switchMaterialDraw.setChecked(true);
                     }
                 }
@@ -154,7 +178,12 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             switchMaterialDraw.setChecked(true);
         }
-        adapter.notifyDataSetChanged();
+        if (dataBase.getReportLogDao().getAllLogs().size() != 0) {
+            changeViewState(false);
+            adapter.notifyDataSetChanged();
+        } else {
+            changeViewState(true);
+        }
     }
 
     @Override
