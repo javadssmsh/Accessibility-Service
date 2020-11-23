@@ -36,6 +36,7 @@ public class WizardActivity extends AppCompatActivity {
             MySharedPreferenceManager.getInstance(this).setFirstEntranceBoolean(false);
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
+            finish();
         });
 
         wizardModels = new ArrayList<>();
