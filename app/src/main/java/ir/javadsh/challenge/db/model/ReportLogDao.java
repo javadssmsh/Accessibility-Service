@@ -17,6 +17,9 @@ public interface ReportLogDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void saveLog(ReportLog reportLog);
 
+    @Query("DELETE FROM reportlog")
+    public void deleteAll();
+
     @Delete
     public void deleteLog(ReportLog reportLog);
 }
