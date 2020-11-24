@@ -13,5 +13,7 @@
     <string name="accessibility_service">Accessibility Service :</string>
     <string name="there_are_no_items_to_display">There are no items to display!</string>
     <string name="clear_data">Clear data</string>
+    <string name="cancel">cancel</string>
+    <string name="one_specific_word_detected">One specific word detected !</string>
 
 </resources>
