@@ -40,10 +40,9 @@ public class WizardActivity extends AppCompatActivity {
         });
 
         wizardModels = new ArrayList<>();
-        wizardModels.add(new WizardModel(R.drawable.ic_image, "Brochure", "Brochure is an informative paper document (often also used for advertising) that can be folded into a template"));
-        wizardModels.add(new WizardModel(R.drawable.ic_launcher_background, "Sticker", "Sticker is a type of label: a piece of printed paper, plastic, vinyl, or other material with pressure sensitive adhesive on one side"));
-        wizardModels.add(new WizardModel(R.drawable.ic_touch, "Poster", "Poster is any piece of printed paper designed to be attached to a wall or vertical surface."));
-        wizardModels.add(new WizardModel(R.drawable.ic_touch, "Namecard", "Business cards are cards bearing business information about a company or individual."));
+        wizardModels.add(new WizardModel(R.drawable.wizard1, "Permission", "Allow necessary permission."));
+        wizardModels.add(new WizardModel(R.drawable.wizard2, "Dialog", "The app finds the desired word, Touch the window if you want to save it."));
+        wizardModels.add(new WizardModel(R.drawable.wizard3, "Logs", "You can see the reports in this section."));
 
         wizardAdapter = new WizardAdapter(wizardModels, this);
 
@@ -55,7 +54,6 @@ public class WizardActivity extends AppCompatActivity {
                 getResources().getColor(R.color.color3),
                 getResources().getColor(R.color.color3),
                 getResources().getColor(R.color.color3),
-                getResources().getColor(R.color.color3)
         };
 
         colors = colors_temp;
