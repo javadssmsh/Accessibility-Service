@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.greenrobot.eventbus.EventBus;
@@ -107,7 +108,6 @@ public class TextAccessibilityService extends AccessibilityService {
                     closeOverOtherApp();
                 } else {
                     closeOverOtherApp();
-
                 }
                 return true;
             }
@@ -155,12 +155,37 @@ public class TextAccessibilityService extends AccessibilityService {
     }
 
     @Override
+    public void onDestroy() {
+        Log.d(ApplicationClass.DEBUG_TAG, "Service (onDestroy)");
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        Log.d(ApplicationClass.DEBUG_TAG, "Service (stopService)");
+        return super.stopService(name);
+    }
+
+    @Override
     public void onAccessibilityEvent(@NonNull AccessibilityEvent event) {
         AccessibilityNodeInfo parentNodeInfo = event.getSource();
         if (parentNodeInfo == null) {
             return;
         }
 
+
+        //
+        List<AccessibilityNodeInfo> scanList = parentNodeInfo.findAccessibilityNodeInfosByText("پرداخت");
+        for (AccessibilityNodeInfo info : scanList) {
+            if (info.getText() != null && info.getText().toString().contains("پرداخت")) {
+                Log.d(ApplicationClass.DEBUG_TAG, "onAccessibilityEvent (text is) " + info.getText().toString());
+                Log.d(ApplicationClass.DEBUG_TAG, ":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+
+            }
+        }
+
+
+        ///
         String packageName = event.getPackageName().toString();
         SupportedBrowserConfig browserConfig = null;
         for (SupportedBrowserConfig supportedConfig : getSupportedBrowsers()) {
@@ -185,7 +210,7 @@ public class TextAccessibilityService extends AccessibilityService {
             return;
         } else {
             lastUrl = capturedUrl;
-            Log.d(ApplicationClass.DEBUG_TAG, "capturedUrl is : " + capturedUrl);
+            //Log.d(ApplicationClass.DEBUG_TAG, "capturedUrl is : " + capturedUrl);
         }
 
         long eventTime = event.getEventTime();
