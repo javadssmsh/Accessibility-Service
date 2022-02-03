@@ -3,7 +3,7 @@
 This is a simple example of accessibility service in android. If the app is accessed, it finds specific word in chrome and Shows a dialog to save that word.
 
 
-#Screen Shots:
+# Screen Shots:
 
 ![photo_2020-11-28_01-51-57](https://user-images.githubusercontent.com/38455574/100487532-5df43f00-311e-11eb-85a0-2e520f70256c.jpg)
 
